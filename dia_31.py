@@ -19,10 +19,26 @@
  * 4. Creación de informes.
  * 5. Salir del programa.
 """
+class Participant:
+
+    def __init__(self, name, country):
+        self.name = name
+        self.country = country
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, Participant):
+            return self.name == other.name and self.country == other.country
+        return False
+
+    def __hash__(self) -> int:
+        return hash(self.name, self.country)
+        
+
 class Olympics:
 
     def __init__(self):
         self.events = []
+        self.participants = {}
 
     def register_event(self):
         
@@ -33,7 +49,35 @@ class Olympics:
         else:
             self.events.append(event)
             print(f"El evento {event} fue registrado")
+
+    def register_participant(self):
+
+        if not self.events:
+            print("Primero debes registrar un evento")
+            return
+        
+        name = input("Introduce el nombre del participante: ").strip()
+        country = input("Introduce el país del participante: ").strip()
+        participant = Participant(name, country)
+
+        print("Eventos disponibles:")
+        for index, event in enumerate(self.events):
+            print(f"{index + 1}. {event}")
     
+        event_choice = int(input("Selecciona el numero del evento para asignar al participante: ")) - 1
+
+        if event_choice >= 0 and event_choice < len(self.events):
+
+            event = self.events[event_choice]
+
+            if participant in self.participants[event]:
+                print(f"El participante {name} de {country}. Ya esta registrado en el evento {event}")
+            else:
+                self.participants[event].append(participant)
+                print(f"El participante {name} de {country}. Fue registrado en el evento {event}")
+
+        else:
+            print("Seleccion de evento invalido. El participante no fue registrado")
 
 olympics = Olympics()
 
@@ -53,9 +97,9 @@ while True:
 
     match option:
         case "1":
-            olympics.register_event() # 10:15
+            olympics.register_event()
         case "2":
-            pass
+            olympics.register_participant() 
         case "3":
             pass
         case "4":
