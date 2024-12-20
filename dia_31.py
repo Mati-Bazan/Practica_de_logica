@@ -19,6 +19,8 @@
  * 4. Creación de informes.
  * 5. Salir del programa.
 """
+import random
+
 class Participant:
 
     def __init__(self, name, country):
@@ -39,6 +41,8 @@ class Olympics:
     def __init__(self):
         self.events = []
         self.participants = {}
+        self.event_results = {}
+        self.country_results = {}
 
     def register_event(self):
         
@@ -79,6 +83,37 @@ class Olympics:
         else:
             print("Seleccion de evento invalido. El participante no fue registrado")
 
+    def simulate_events(self):
+        
+        if not self.events:
+            print("No hay eventos registrados")
+            return
+
+        for event in self.events:
+            if len(self.participants[event]) < 3:
+                print(f"No hay suficientes participantes para el evento {event}")
+                continue
+            
+            event_participants =  random.sample(self.participants[event], 3)
+            random.shuffle(event_participants)
+
+            gold, silver, bronze = event_participants
+            self.results[event] = [gold, silver, bronze]
+
+            self.update_country_results(gold.country, "Gold")
+            self.update_country_results(silver.country, "Silver")
+            self.update_country_results(bronze.country, "Bronze")
+
+            print(f"Resultados simulacion evento: {event}")
+            print(f"Oro: {gold.name} de {gold.country}")
+            print(f"Plata: {silver.name} de {silver.country}")
+            print(f"Bronce: {bronze.name} de {bronze.country}")
+
+    def update_country_results(self, country, medal):
+        if country not in self.country_results:
+            self.country_results[country] = {"Gold": 0, "Silver": 0, "Bronze": 0}
+        self.country_results[country][medal] += 1
+
 olympics = Olympics()
 
 print("Simulador JJOO")
@@ -99,9 +134,9 @@ while True:
         case "1":
             olympics.register_event()
         case "2":
-            olympics.register_participant() 
+            olympics.register_participant()
         case "3":
-            pass
+            olympics.simulate_events()
         case "4":
             pass
         case "5":
