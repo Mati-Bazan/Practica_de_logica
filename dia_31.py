@@ -114,6 +114,29 @@ class Olympics:
             self.country_results[country] = {"Gold": 0, "Silver": 0, "Bronze": 0}
         self.country_results[country][medal] += 1
 
+    def show_report(self):
+
+        print("Resultados JJOO 2024")
+
+        if self.event_results:
+            for event, winners in self.results.items():
+                print(f"Evento: {event}")
+                print(f"Oro: {winners[0].name} de {winners[0].country}")
+                print(f"Plata: {winners[1].name} de {winners[1].country}")
+                print(f"Bronce: {winners[2].name} de {winners[2].country}")
+        else:
+            print("No hay resultados para mostrar")
+
+        if self.country_results:
+
+            for country, medals in sorted(self.country_results.items(), key=lambda x: (
+                x[1]["Gold"], x[1]["Silver"], x[1]["Bronze"])):
+
+                print(f"{country}: {medals['Gold']} Oros, {medals['Silver']} Platas, {medals['Bronze']} Bronces")
+            
+        else:
+            print("No hay medallas por pais para mostrar")
+
 olympics = Olympics()
 
 print("Simulador JJOO")
@@ -138,7 +161,7 @@ while True:
         case "3":
             olympics.simulate_events()
         case "4":
-            pass
+            olympics.show_report()
         case "5":
             print("Saliendo del simulador")
             break
