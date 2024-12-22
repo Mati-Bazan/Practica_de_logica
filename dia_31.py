@@ -74,9 +74,13 @@ class Olympics:
 
             event = self.events[event_choice]
 
-            if participant in self.participants[event]:
+            if event in self.participants and participant in self.participants[event]:
                 print(f"El participante {name} de {country}. Ya esta registrado en el evento {event}")
             else:
+
+                if event not in self.participants:
+                    self.participants[event] = []
+
                 self.participants[event].append(participant)
                 print(f"El participante {name} de {country}. Fue registrado en el evento {event}")
 
@@ -98,7 +102,7 @@ class Olympics:
             random.shuffle(event_participants)
 
             gold, silver, bronze = event_participants
-            self.results[event] = [gold, silver, bronze]
+            self.event_results[event] = [gold, silver, bronze]
 
             self.update_country_results(gold.country, "Gold")
             self.update_country_results(silver.country, "Silver")
@@ -119,7 +123,10 @@ class Olympics:
         print("Resultados JJOO 2024")
 
         if self.event_results:
-            for event, winners in self.results.items():
+
+            print("Informe por evento")
+
+            for event, winners in self.event_results.items():
                 print(f"Evento: {event}")
                 print(f"Oro: {winners[0].name} de {winners[0].country}")
                 print(f"Plata: {winners[1].name} de {winners[1].country}")
@@ -129,8 +136,10 @@ class Olympics:
 
         if self.country_results:
 
+            print("Informe por pais")
+
             for country, medals in sorted(self.country_results.items(), key=lambda x: (
-                x[1]["Gold"], x[1]["Silver"], x[1]["Bronze"])):
+                x[1]["Gold"], x[1]["Silver"], x[1]["Bronze"]), reverse=True):
 
                 print(f"{country}: {medals['Gold']} Oros, {medals['Silver']} Platas, {medals['Bronze']} Bronces")
             
@@ -161,7 +170,7 @@ while True:
         case "3":
             olympics.simulate_events()
         case "4":
-            olympics.show_report()
+            olympics.show_report() # 40:00
         case "5":
             print("Saliendo del simulador")
             break
