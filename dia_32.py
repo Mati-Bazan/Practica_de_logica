@@ -23,3 +23,53 @@ EJERCICIO:
 * 4. Muestra la vida en cada turno.
 * 5. Muestra el resultado final.
 """
+import random
+
+deadpool_health = int(input("Ingrese la vida inicial de Deadpool: "))
+wolberine_health = int(input("Ingrese la vida inicial de Wolberine: "))
+
+turn = 0
+
+while deadpool_health > 0 and wolberine_health > 0:
+
+    turn += 1
+    print(f"Turno {turn}")
+
+    # Deadpool ataca a Wolberine
+
+    if random.random() > 0.2:
+        deadpool_damage = random.randint(10, 100)
+        if deadpool_damage == 100:
+            print("Deadpool ha hecho un daño crítico a Wolberine y no podra atacrae en el siguiente turno")
+    
+        wolberine_health -= deadpool_damage
+
+        if wolberine_health <= 0:
+            print("La vida de Wolberine ha llegado a 0")
+            break
+        else:
+            print(f"Vida restante de Wolberine: {wolberine_health}")
+    else:
+        print("Wolberine ha evadido el ataque de Deadpool")
+
+    # Wolberine ataca a Deadpool
+
+    if random.random() > 0.25:
+        wolberine_damage = random.randint(10, 120)
+        if wolberine_damage == 100:
+            print("Wolberine ha hecho un daño crítico a Deadpool y no podra atacrae en el siguiente turno")
+    
+        deadpool_health -= wolberine_damage
+
+        if deadpool_health <= 0:
+            print("La vida de Deadpool ha llegado a 0")
+            break
+        else:
+            print(f"Vida restante de Deadpool: {deadpool_health}")
+    else:
+        print("Deadpool ha evadido el ataque de Wolberine")
+
+if deadpool_health > 0:
+    print("Deadpool ha ganado")
+else:
+    print("Wolberine ha ganado")
