@@ -24,22 +24,29 @@ EJERCICIO:
 * 5. Muestra el resultado final.
 """
 import random
+import time
 
 deadpool_health = int(input("Ingrese la vida inicial de Deadpool: "))
 wolberine_health = int(input("Ingrese la vida inicial de Wolberine: "))
 
 turn = 0
+refenerate = False
 
 while deadpool_health > 0 and wolberine_health > 0:
 
-    turn += 1
-    print(f"Turno {turn}")
+    turn += 1 # 14:25
+    print(f"\nTurno {turn}")
 
     # Deadpool ataca a Wolberine
 
-    if random.random() > 0.2:
+    if refenerate:
+        print("Deadpool no puede atacar en este turno, se esta regenerando")
+        refenerate = False
+    elif random.random() > 0.2:
         deadpool_damage = random.randint(10, 100)
+        print(f"Deadpool ha hecho {deadpool_damage} puntos de daño a Wolberine")
         if deadpool_damage == 100:
+            refenerate = True
             print("Deadpool ha hecho un daño crítico a Wolberine y no podra atacrae en el siguiente turno")
     
         wolberine_health -= deadpool_damage
@@ -54,9 +61,14 @@ while deadpool_health > 0 and wolberine_health > 0:
 
     # Wolberine ataca a Deadpool
 
-    if random.random() > 0.25:
+    if refenerate:
+        print("Wolberine no puede atacar en este turno, se esta regenerando")
+        refenerate = False
+    elif random.random() > 0.25:
         wolberine_damage = random.randint(10, 120)
-        if wolberine_damage == 100:
+        print(f"Wolberine ha hecho {wolberine_damage} puntos de daño a Deadpool")
+        if wolberine_damage == 120:
+            refenerate = False
             print("Wolberine ha hecho un daño crítico a Deadpool y no podra atacrae en el siguiente turno")
     
         deadpool_health -= wolberine_damage
@@ -69,7 +81,9 @@ while deadpool_health > 0 and wolberine_health > 0:
     else:
         print("Deadpool ha evadido el ataque de Wolberine")
 
+    time.sleep(1)
+
 if deadpool_health > 0:
-    print("Deadpool ha ganado")
+    print(f"Deadpool ha ganado con {deadpool_health} puntos de vida restantes")
 else:
-    print("Wolberine ha ganado")
+    print(f"Wolberine ha ganado con {wolberine_health} puntos de vida restantes")
