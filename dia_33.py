@@ -22,3 +22,40 @@
 * del laberinto y los obtáculos. Notifica al usuario.
 * 5. Finaliza el programa cuando Mickey llegue a la salida.
 """
+maze = [
+    ["🐭", "⬛️", "⬛️", "⬛️", "⬛️", "⬛️"],
+    ["⬜️", "⬛️", "⬛️", "⬛️", "⬜️", "⬛️"],
+    ["⬜️", "⬛️", "⬛️", "⬛️", "⬜️", "⬛️"],
+    ["⬜️", "⬜️", "⬜️", "⬜️", "⬜️", "⬜️"],
+    ["⬛️", "⬜️", "⬛️", "⬜️", "⬛️", "⬛️"],
+    ["⬛️", "⬜️", "⬛️", "⬜️", "⬜️", "🚪"]
+]
+
+mickey = [0, 0]
+
+while True:
+
+    print("Hacia donde quieres mover a Mickey")
+    print("[w] arriba")
+    print("[s] abajo")
+    print("[a] izquierda")
+    print("[d] derecha")
+    direccion = input("Introduce la dirección: ")
+
+    current_row, current_column = mickey
+    new_row, new_column = current_row, current_column
+
+
+
+    match direccion:
+        case "w":
+            pass
+        case "s":
+            pass
+        case "a":
+            pass
+        case "d":
+            pass
+        case _:
+            print("Dirección no válida")
+            continue
