@@ -31,9 +31,16 @@ maze = [
     ["⬛️", "⬜️", "⬛️", "⬜️", "⬜️", "🚪"]
 ]
 
+def print_maze(maze):
+    for row in maze:
+        print(" ".join(row))
+    print()
+
 mickey = [0, 0]
 
 while True:
+
+    print_maze(maze)
 
     print("Hacia donde quieres mover a Mickey")
     print("[w] arriba")
@@ -45,17 +52,33 @@ while True:
     current_row, current_column = mickey
     new_row, new_column = current_row, current_column
 
-
-
     match direccion:
         case "w":
-            pass
+            new_row = current_row - 1
         case "s":
-            pass
+            new_row = current_row + 1
         case "a":
-            pass
+            new_column = current_column - 1
         case "d":
-            pass
+            new_column = current_column + 1
         case _:
-            print("Dirección no válida")
+            print("Dirección no válida\n")
             continue
+
+    if new_row < 0 or new_row > 5 or new_column < 0 or new_column > 5:
+        print("No puedes moverte fuera del laberinto\n")
+        continue
+    else:
+        if maze[new_row][new_column] == "⬛️":
+            print("Hay un obstáculo, no puedes moverte\n")
+            continue
+        elif maze[new_row][new_column] == "🚪":
+            print("¡Felicidades, has encontrado la salida!")
+            maze[current_row][current_column] = "⬜️"
+            maze[new_row][new_column] = "🐭"
+            print_maze(maze)
+            break
+        else:
+            maze[current_row][current_column] = "⬜️"
+            maze[new_row][new_column] = "🐭"
+            mickey = [new_row, new_column]
