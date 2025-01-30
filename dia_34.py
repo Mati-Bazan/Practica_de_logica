@@ -23,3 +23,22 @@
 * se implementan todas las posibles relaciones. Intenta marcar
 * tus propias reglas y límites para que te resulte asumible.
 """
+class Persona:
+
+    def __init__(self, id: int, name: str):
+        self.id = id
+        self.name = name
+        self.partner = None
+        self.children = []
+
+    def add_partner(self, partner):
+        if self.partner is not None:
+            print(f"{self.name} ya tiene pareja: {self.partner.name}")
+        else:
+            self.partner = partner
+            partner.partner = self
+            print(f"{self.name} y {partner.name} son pareja")
+
+    def add_child(self):
+        pass
+
