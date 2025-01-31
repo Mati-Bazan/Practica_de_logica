@@ -39,6 +39,34 @@ class Persona:
             partner.partner = self
             print(f"{self.name} y {partner.name} son pareja")
 
+    def add_child(self, child):
+        if child not in self.children:
+            self.children.append(child)
+            print(f"{child.name} es hijo de {self.name}")
+        else:
+            print(f"{child.name} ya es hijo de {self.name}")
+
+class FamilyTree:
+
+    def __init__(self):
+        self.people = {}
+
+    def add_person(self, id, name):
+        if id in self.people:
+            print(f"La persona con ID {id} ya existe")
+        else:
+            persona = Persona(id, name)
+            self.people[id] = persona
+            print(f"La persona con nombre {name}, (ID: {id}) ha sido añadida")
+
+    def remove_person(self):
+        pass
+
+    def set_partner(self):
+        pass
+
     def add_child(self):
         pass
 
+    def print_tree(self):
+        pass
