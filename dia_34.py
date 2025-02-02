@@ -30,6 +30,7 @@ class Persona:
         self.name = name
         self.partner = None
         self.children = []
+        self.has_parents = False
 
     def add_partner(self, partner):
         if self.partner is not None:
@@ -77,9 +78,21 @@ class FamilyTree:
 
     def add_child(self, parent_id, child_id):
         if parent_id in self.people and child_id in self.people:
-            parent = self.people[parent_id]
-            child = self.people[child_id]
-            parent.add_child(child)
+
+            if parent_id == child_id:
+                print("Los ID no pueden ser iguales para añadir un hijo")
+            else:
+                parent = self.people[parent_id]
+                if parent.partner is None:
+                    print("Se necesita una pareja para tener hijos")
+                else:
+                    child = self.people[child_id]
+                    if child.has_parents:
+                        print(f"{child.name} ya tiene padres")
+                    else:
+                        child.has_parents = True
+                        parent.add_child(child)
+                        parent.partner.add_child(child)
         else:
             print("Alguna de las personas no existe")
 
@@ -91,7 +104,11 @@ tree = FamilyTree()
 tree.add_person(1, "Jon Snow")
 tree.add_person(2, "Daenerys Targaryen")
 tree.add_person(3, "Arya Stark")
+tree.add_person(4, "Sansa Stark")
+
+tree.set_partner(1, 2)
 
 tree.add_child(1, 3)
 tree.add_child(2, 3)
 tree.add_child(3, 3)
+tree.add_child(4, 3)
