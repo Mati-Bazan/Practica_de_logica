@@ -97,7 +97,35 @@ class FamilyTree:
             print("Alguna de las personas no existe")
 
     def print_tree(self):
-        pass
+
+        visited = set()
+
+        def print_person(person, level = 0):
+
+            if person.id in visited:
+                return
+            
+            visited.add(person.id)
+
+            indent = "\t" * level
+
+            print(f"{indent} - {person.name} [ID: {person.id}]")
+
+            if person.partner:
+                visited.add(person.partner.id)
+                print(f"{indent} Pareja: {person.partner.name} [ID: {person.partner.id}]")
+
+            if person.children:
+                print(f"{indent} Hijos:")
+                for child in person.children:
+                    print_person(child, level + 1)
+    
+        
+        for person in self.people.values():
+            is_child = person.has_parents
+            if not is_child:
+                print_person(person)
+                
 
 tree = FamilyTree()
 
@@ -105,6 +133,8 @@ tree.add_person(1, "Jon Snow")
 tree.add_person(2, "Daenerys Targaryen")
 tree.add_person(3, "Arya Stark")
 tree.add_person(4, "Sansa Stark")
+tree.add_person(5, "Bran Stark")
+tree.add_person(6, "Robb Stark")
 
 tree.set_partner(1, 2)
 
@@ -112,3 +142,8 @@ tree.add_child(1, 3)
 tree.add_child(2, 3)
 tree.add_child(3, 3)
 tree.add_child(4, 3)
+
+tree.set_partner(3, 5)
+tree.add_child(5, 6)
+
+tree.print_tree()
