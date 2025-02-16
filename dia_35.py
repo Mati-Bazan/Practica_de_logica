@@ -14,6 +14,13 @@
 *    y busque una posible combinación para repartirlos.
 * 2. Muestra el reparto final o el error al realizarlo.
 """
+def is_prime(number: int):
+    if number < 2:
+        return False
+    for i in range(2, int(number ** 0.5) + 1):
+        if number % i == 0:
+            return False
+    return True
 
 def distribute_rings(total_rings: int):
     
@@ -23,13 +30,13 @@ def distribute_rings(total_rings: int):
     for men in range(2,total_rings,2):
         for elves in range(1,total_rings,2):
             dwarves = total_rings - men - elves
-
-            return {
-                "Hombres":men,
-                "Elfos":elves,
-                "Enanos":dwarves,
-                "Sauron":1
-            }
+            if dwarves > 0 and is_prime(dwarves):
+                return {
+                    "Hombres":men,
+                    "Elfos":elves,
+                    "Enanos":dwarves,
+                    "Sauron":1
+                }
 
     
 
@@ -41,5 +48,11 @@ try:
     total_rings = int(input("Ingresa el número total de anillos: "))
     distributed_rings = distribute_rings(total_rings)
     
+    if isinstance(distributed_rings, dict):
+        print("Reparto de anillos:\n")
+        print(distributed_rings)
+    else:    
+        print(distributed_rings)
+
 except ValueError:
     print("Ingresa un número válido de anillos.")
