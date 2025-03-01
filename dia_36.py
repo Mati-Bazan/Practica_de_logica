@@ -236,3 +236,20 @@ questions = [
     }
 ]
 
+print("¡Bienvenido al Sombrero Seleccionador de Hogwarts!")
+name = input("¿Cuál es tu nombre? ")
+
+for index, question in enumerate(questions):
+    
+    print(f"Pregunta {index + 1}: {question['question']}")
+
+    for i, answer in enumerate(question["answers"]):
+
+        print(f"{i + 1}. {answer['option']}")
+
+    choice = int(input("Elige una opción entre 1 y 4: "))
+
+    selected_answer = question["answers"][choice[choice - 1]]
+    houses[selected_answer["house"]] += 1
+
+    asingned_house = max(houses, key=houses.get)
