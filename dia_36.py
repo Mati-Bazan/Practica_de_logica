@@ -18,6 +18,8 @@ Acciones:
    pero indicándole al alumno que la decisión ha sido complicada).
 """
 
+import random
+
 houses = {
    "Frontend": 0,
    "Backend": 0,
@@ -249,7 +251,20 @@ for index, question in enumerate(questions):
 
     choice = int(input("Elige una opción entre 1 y 4: "))
 
-    selected_answer = question["answers"][choice[choice - 1]]
+    selected_answer = question["answers"][choice - 1]
     houses[selected_answer["house"]] += 1
 
-    asingned_house = max(houses, key=houses.get)
+asingned_house = max(houses, key=houses.get)
+
+scores = list(houses.values())
+
+if scores.count(max(scores)) > 1:
+    posible_houses = [
+        house for house, score in houses.items() if score == max(scores)
+    ]
+    asingned_house = random.choice(posible_houses)
+
+    print(f"¡{name}! Tu casa es... {asingned_house} (decisión complicada)")
+else:
+    print(f"¡{name}! Tu casa es... {asingned_house}")
+
