@@ -15,3 +15,15 @@ EJERCICIO:
 * 3. Muestra todos los resultados por consola para notificar al usuario.
 * 4. Desarrolla un criterio para seleccionar qué banda es más popular.
 """
+import requests
+import base64
+
+CLIENT_ID = ""
+CLIENT_SECRET = ""
+
+def get_token() -> str:
+    url = "https://accounts.spotify.com/api/token"
+    headers = {
+        "Authorization": "Basic " + base64.b64encode(f""),
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
