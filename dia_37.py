@@ -24,6 +24,40 @@ CLIENT_SECRET = ""
 def get_token() -> str:
     url = "https://accounts.spotify.com/api/token"
     headers = {
-        "Authorization": "Basic " + base64.b64encode(f""),
+        "Authorization": "Basic " + base64.b64encode(f"{CLIENT_ID}:{CLIENT_SECRET}".encode()).decode(),
         "Content-Type": "application/x-www-form-urlencoded"
     }
+    data = {
+        "grant_type": "client_credentials"
+    }
+
+    response = requests.post(url, headers=headers, data=data).json()["access_token"]
+    if response.status_code != 200:
+        raise Exception("Error al obtener el token: " + response.json())
+
+    return response.json()["access_token"]
+
+
+def search_artist(token: str, name: str) -> dict:
+    url = f"https://api.spotify.com/v1/search?q={name}&type=artist&limit=1"
+    headers = {
+        "Authorization": f"Bearer {token}"
+    }
+
+    response = requests.post(url, headers=headers)
+    if response.status_code != 200:
+        raise Exception("Error al buscar el artista: " + response.json())
+
+    results = response.json()
+    if results["artists"]["items"]:
+        return results["artists"]["items"][0][ "id"]
+    else:
+        raise Exception(f"El artista {name} no se ha encontrado.")
+    
+
+token = get_token()
+artist1 = search_artist(token, "Oasis")
+artist2 = search_artist(token, "Linkin Park")
+
+print(artist1)
+print(artist2)
