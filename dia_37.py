@@ -54,10 +54,59 @@ def search_artist(token: str, name: str) -> dict:
     else:
         raise Exception(f"El artista {name} no se ha encontrado.")
     
+def get_artist_data(token: str, id: str):
+    url = f"https://api.spotify.com/v1/artists/{id}"
+    headers = {"Authorization": f"Bearer {token}"}
 
+    response = requests.post(url, headers=headers)
+    if response.status_code != 200:
+        raise Exception("Error al obtener los datos del artista: " + response.json())
+    
+    results = response.json()
+    return {
+        "name": results["name"],
+        "followers": results["followers"]["total"],
+        "popularity": results["popularity"],
+    }
+
+def get_artist_top_tracks(token: str, id: str):
+    url = f"https://api.spotify.com/v1/artists/{id}/top-tracks"
+    headers = {"Authorization": f"Bearer {token}"}
+
+    response = requests.post(url, headers=headers)
+    if response.status_code != 200:
+        raise Exception("Error al obtener las canciones del artista: " + response.json())
+    
+    results = response.json()
+    top_track = max(results["tracks"], key=lambda track: track["popularity"])
+
+    return {
+        "name": top_track["name"],
+        "popularity": top_track["popularity"],
+    }
+
+# 1. Token
 token = get_token()
+
+# 2. IDs 
 artist1 = search_artist(token, "Oasis")
 artist2 = search_artist(token, "Linkin Park")
 
-print(artist1)
-print(artist2)
+# 3. Datos
+
+# 3.1. Datos de seguidores y popularidad
+artist_uno = get_artist_data(token, artist1)
+artist_dos = get_artist_data(token, artist2)
+
+# 3.2. Canción más popular
+top_track_uno = get_artist_top_tracks(token, artist1)
+top_track_dos = get_artist_top_tracks(token, artist2)
+
+# 4. Comparación
+print("\nComparación de artistas\n")
+print(f"Nombre: {artist_uno['name']}")
+print(f"Nombre: {artist_dos['name']}")
+
+print("\nComparación de seguidores\n")
+print(f"Seguidores {artist_uno['name']}: {artist_uno['followers']}")
+print(f"Seguidores {artist_dos['name']}: {artist_dos['followers']}")
