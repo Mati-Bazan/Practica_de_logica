@@ -103,10 +103,49 @@ top_track_uno = get_artist_top_tracks(token, artist1)
 top_track_dos = get_artist_top_tracks(token, artist2)
 
 # 4. Comparación
+counter_artist_uno = 0
+counter_artist_dos = 0
+
 print("\nComparación de artistas\n")
 print(f"Nombre: {artist_uno['name']}")
 print(f"Nombre: {artist_dos['name']}")
 
+# 4.1. Comparación de seguidores
 print("\nComparación de seguidores\n")
 print(f"Seguidores {artist_uno['name']}: {artist_uno['followers']}")
 print(f"Seguidores {artist_dos['name']}: {artist_dos['followers']}")
+
+if artist_uno['followers'] > artist_dos['followers']:
+    print(f"{artist_uno['name']} tiene mas seguidores.")
+    counter_artist_uno += 1
+else:
+    print(f"{artist_dos['name']} tiene mas seguidores.")
+    counter_artist_dos += 1
+
+# 4.2. Comparación de popularidad
+print("\nComparación de popularidad\n")
+print(f"Popularidad {artist_uno['name']}: {artist_uno['popularity']}")
+print(f"Popularidad {artist_dos['name']}: {artist_dos['popularity']}")
+
+if artist_uno['popularity'] > artist_dos['popularity']:
+    print(f"{artist_uno['name']} es más popular.")
+    counter_artist_uno += 1
+else:
+    print(f"{artist_dos['name']} es más popular.")
+    counter_artist_dos += 1
+
+# 4.3. Comparación de canciones
+print("\nComparación de cancion\n")
+print(f"Cancion {top_track_uno["name"]} {artist_uno['name']}: {top_track_uno['popularity']}")
+print(f"Cancion {top_track_dos["name"]} {artist_dos['name']}: {top_track_dos['popularity']}")
+
+if top_track_uno['popularity'] > top_track_dos['popularity']:
+    print(f"La cancion {top_track_uno["name"]} de {artist_uno['name']} es más popular.")
+    counter_artist_uno += 1
+else:
+    print(f"La cancion {top_track_dos["name"]} de {artist_dos['name']} es más popular.")
+    counter_artist_dos += 1
+
+# 5. Resultado
+if counter_artist_uno > counter_artist_dos:
+    print(f"\n{artist_uno['name']} es más popular que {artist_dos['name']}.")
